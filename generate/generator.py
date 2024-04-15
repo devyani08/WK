@@ -239,7 +239,7 @@ def run_another_file(file_path):
 
 # Example usage
 
-run_another_file("./trial.py")
+run_another_file("generate/imageSelector.py")
 
 
 commands = [
