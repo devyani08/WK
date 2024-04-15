@@ -1,4 +1,6 @@
 import os
+import subprocess
+import sys
 import customtkinter as ctk 
 import tkinter.messagebox as tkmb
 from tkinter import colorchooser
@@ -14,24 +16,26 @@ app.geometry("500x400")
 app.title("WEBKIT: Project Generator") 
   
 def get_project_info():
-    global project_name
-    global project_description
-    project_name = name_entry.get()
-    project_description = description_entry.get() 
-    print(f"Project Name: {project_name}")
-    print(f"Project description: {project_description}")
-    app.destroy() 
+  """ Get project name and description from user"""
+  global project_name
+  global project_description
+  project_name = name_entry.get()
+  project_description = description_entry.get() 
+  print(f"Project Name: {project_name}")
+  print(f"Project description: {project_description}")
+  app.destroy() 
 
 def pick_color():
-    color = colorchooser.askcolor(title="Choose a color")[1]
-    tkmb.showinfo(title="Selected colour",message=f"Your selected colour is {color}" ) 
-    with open("color.txt","a") as file:
-        file.write(color+" ")
+  color = colorchooser.askcolor(title="Choose a theme color for background")[1]
+  tkmb.showinfo(title="Selected colour",message=f"Your selected colour is {color}" ) 
+  with open("color.txt","a") as file:
+      file.write(color+" ")
 
 label = ctk.CTkLabel(app,text="WEB KIT") 
 label.pack(pady=20) 
 frame = ctk.CTkFrame(master=app) 
 frame.pack(pady=20,padx=40,fill='both',expand=True) 
+
 label = ctk.CTkLabel(master=frame,text='Generate React project') 
 label.pack(pady=12,padx=10)
 
@@ -50,9 +54,11 @@ app.mainloop()
 
 print(project_name)
 
+# working with files and commands 
 commands = [
     f"mkdir {project_name} && cd {project_name} && mkdir public &&  cd public &&  touch index.html",
 ]
+
 combined_command = " && ".join(commands)
 os.system(combined_command)
 
@@ -60,18 +66,9 @@ os.system(combined_command)
 commands = [
     f"cd {project_name} && mkdir src && cd src && touch app.js && touch index.js",
 ]
+
 combined_command = " && ".join(commands)
 os.system(combined_command)
-
-source_dir = 'generate/settings/images'
-dest_dir = f'{project_name}/src/images'
-
-try:
-  # Copy the entire contents of the source directory to the destination directory
-  shutil.copytree(source_dir, dest_dir)
-  print(f"Images copied from '{source_dir}' to '{dest_dir}' successfully.")
-except Exception as e:
-  print(f"Error copying images: {e}")
 
 
 source_dir = 'generate/settings/componentHandler'
@@ -219,7 +216,7 @@ with open(f"{project_name}/src/app.js",'w')as file:
     file.write(app_js)
     print("writing app.js....")
 
-# subprocess.run(["python", "component_generator.py"])
+
 print(os.getcwd())
 commands = [
    f"cd {project_name} && npm i",
@@ -232,9 +229,22 @@ combined_command = " && ".join(commands)
 os.system(combined_command)
 
 
+def run_another_file(file_path):
+    try:
+        subprocess.Popen([sys.executable, file_path])
+    except FileNotFoundError:
+        print(f"Error: File '{file_path}' not found.")
+    except Exception as e:
+        print(f"Error occurred: {e}")
+
+# Example usage
+
+run_another_file("./trial.py")
+
+
 commands = [
     f"cd {project_name} && npm start",
 ]
 combined_command = " && ".join(commands)
 os.system(combined_command)
-    
+  

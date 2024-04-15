@@ -171,32 +171,32 @@ elif component_name=="hero":
 
 elif component_name == 'footer':
   pass
-elif component_name == 'form':
-  form_js = f'''import React from 'react';
-import {{ Form, Button }} from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
-const MyForm = () => {{
-  return (
-    <Form>
-      {"".join([f'''
-      <Form.Group controlId="formBasic{field.capitalize()}">
-        <Form.Label>{field.capitalize()}</Form.Label>
-        <Form.Control type="text" placeholder={{"Enter {field}"}} />
-      </Form.Group>''' for field in component_description])}
-      
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-    </Form>
-  );
-}}
 
-export default MyForm;
-'''
+#   form_js = f'''import React from 'react';
+# import {{ Form, Button }} from 'react-bootstrap';
+# import 'bootstrap/dist/css/bootstrap.min.css';
+# const MyForm = () => {{
+#   return (
+#     <Form>
+#   {"".join([f'''
+#   <Form.Group controlId="formBasic{field.capitalize()}">
+#     <Form.Label>{field.capitalize()}</Form.Label>
+#     <Form.Control type="text" placeholder={{"Enter {field}"}} />
+#   </Form.Group>''' for field in component_description])}
+  
+#       <Button variant="primary" type="submit">
+#         Submit
+#       </Button>
+#     </Form>
+#   );
+# }}
 
-  with open(f'{component_dir}/{component_name}.jsx', 'w') as form_file:
-    form_file.write(form_js)
+# export default MyForm;
+# '''
+
+#   with open(f'{component_dir}/{component_name}.jsx', 'w') as form_file:
+#     form_file.write(form_js)
 
 
 if component_name== "nav":
