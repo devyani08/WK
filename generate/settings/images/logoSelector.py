@@ -41,31 +41,31 @@ ctk.set_default_color_theme("green")
 # Create main window
 app = ctk.CTk()
 app.geometry("600x600") 
-app.title("Image File Input")
+app.title("Logo File Input")
 
 # Create a ctk frame
-label = ctk.CTkLabel(app,text="WEB KIT") 
+label = ctk.CTkLabel(app,text="Select a image file for Website's Logo") 
 label.pack(pady=20) 
 frame = ctk.CTkFrame(master=app) 
 frame.pack(pady=20,padx=40,fill='both',expand=True) 
 # Create widgets
 
-label = ctk.CTkLabel(master=frame,text='Select Image') 
+label = ctk.CTkLabel(master=frame,text='Select image in png, jpeg, webp format only') 
 label.pack(pady=12,padx=10)
 
 entry= ctk.CTkEntry(master=frame,placeholder_text="Example: C://Desktop/image.jpeg") 
 entry.pack(pady=12,padx=10) 
   
-browse_button = ctk.CTkButton(master=frame, text="Browse", command=open_file_dialog)
+browse_button = ctk.CTkButton(master=frame, text="Upload", command=open_file_dialog)
 browse_button.pack(pady=12,padx=10)
 
 filename_label = ctk.CTkLabel(master=frame, text="Enter Filename:") 
 filename_label.pack(pady=12,padx=10)
 
-filename_entry = ctk.CTkEntry(master=frame, placeholder_text="Example: my_image.png") 
+filename_entry = ctk.CTkEntry(master=frame, placeholder_text="Example: logo.png") 
 filename_entry.pack(pady=12,padx=10)
 
-save_button = ctk.CTkButton(master=frame, text="Save Image", command=save_image_to_folder)
+save_button = ctk.CTkButton(master=frame, text="Save LOGO", command=save_image_to_folder)
 save_button.pack(pady=12,padx=10)
 
 status_label = ctk.CTkLabel(master=frame, text="")

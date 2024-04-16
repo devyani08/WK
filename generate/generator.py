@@ -70,17 +70,6 @@ commands = [
 combined_command = " && ".join(commands)
 os.system(combined_command)
 
-
-source_dir = 'generate/settings/componentHandler'
-dest_dir = f'{project_name}/componentHandler'
-
-try:
-  # Copy the entire contents of the source directory to the destination directory
-  shutil.copytree(source_dir, dest_dir)
-  print(f"componentHandler copied from '{source_dir}' to '{dest_dir}' successfully.")
-except Exception as e:
-  print(f"Error copying componentHandler: {e}")
-
 commands = [
     " touch project_name.txt && touch project_desc.txt",
 ]
@@ -182,7 +171,7 @@ root.render(
 '''
 app_js = f'''
 import React from 'react';
-import {{ BrowserRouter as Router, Route, Routes }} from 'react-router-dom';
+import {{ BrowserRouter as Router, Routes }} from 'react-router-dom';
 
 const App = () => {{
   return (
@@ -239,7 +228,7 @@ def run_another_file(file_path):
 
 # Example usage
 
-run_another_file("generate/imageSelector.py")
+run_another_file("generate/settings/images/logoSelector.py")
 
 
 commands = [

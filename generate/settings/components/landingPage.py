@@ -10,56 +10,76 @@ with open("project_name.txt", 'r') as file:
   project_name = file.read()
   print(project_name)
 
-component_name="landingPage"
+component_name="landingpage"
 
 component_dir = f"./{project_name}/src/components/"+component_name.lower().replace(" ", "-")
 os.makedirs(component_dir, exist_ok=True)
 
 def generate():
-    position = ""
     theme=""
-    if dark_var.get():
+    if theme_var.get()==1:
         theme= "dark"
-    if light_var.get():
-        theme="light"
-    if primary_var.get():
-        theme= "primary"
-    if secondary_var.get():
-        position = "secondary"
-    if stickybottom_var.get():
-        position = "sticky-bottom"
-    
+    if theme_var.get()==2:
+        theme="light" 
     # Get navbar elements
-    elements = elements_entry.get().split(",") if elements_entry.get() else []
-
+    
     js = f'''import React from 'react';
     import logo from '../../images/logo.png';
     import {{ Navbar, Nav ,Container, NavDropdown }} from 'react-bootstrap';
     import 'bootstrap/dist/css/bootstrap.min.css';
-
-    const MyNav = () => {{
+    import Carousel from 'react-bootstrap/Carousel';
+    import image1 from '../../images/image3.png';
+    import image2 from '../../images/image2.jpeg';
+    import image3 from '../../images/image1.webp';
+    
+    const LandingPage = () => {{
     return (
-        <Navbar  expand="lg" bg="{theme}" data-bs-theme="{theme}"> 
-        <Navbar.Brand>
+        <Carousel fade bg="{theme}" data-bs-theme="{theme}">
+      <Carousel.Item>
         <img
-            src={{logo}}
-            width="35"
-            height="35"
-            className="d-inline-block align-top rounded-3 mx-4 fluid"
-            alt="React Bootstrap logo"
-            />
-            {project_name}</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-            {"".join([f'<Nav.Link href="/{item}">{item}</Nav.Link> \n' for item in elements])}
-            </Nav>
-        </Navbar.Collapse>
-        </Navbar>
+          className="d-block w-100"
+          src={{image1}}
+          alt="First slide"
+          fluid
+        />
+        <Carousel.Caption>
+          <h3>First slide label</h3>
+          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+        </Carousel.Caption>
+      </Carousel.Item>
+      
+      <Carousel.Item>
+      <img
+          className="d-block w-100"
+          src={{image2}}
+          alt="Second slide"
+          fluid
+        />
+        <Carousel.Caption>
+          <h3>Second slide label</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </Carousel.Caption>
+      </Carousel.Item>
+      
+      <Carousel.Item>
+      <img
+          className="d-block w-100"
+          src={{image3}}
+          alt="Third slide"
+          fluid
+        />
+        <Carousel.Caption>
+          <h3>Third slide label</h3>
+          <p>
+            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+          </p>
+        </Carousel.Caption>
+      </Carousel.Item>
+    </Carousel>
     );
     }}
 
-    export default MyNav;
+    export default LandingPage;
     '''
 
     with open(f'{component_dir}/{component_name}.jsx', 'w') as file:
@@ -71,51 +91,37 @@ app = ctk.CTk()
 app.geometry("600x600") 
 app.title("WEBKIT: Custom Component Generator")
 
-label = ctk.CTkLabel(app,text="Nav generator") 
+label = ctk.CTkLabel(app,text="Landing Page Generator") 
 label.pack(pady=20) 
 frame = ctk.CTkFrame(master=app) 
 frame.pack(pady=20,padx=40,fill='both',expand=True)
 
-dark_var = ctk.IntVar()
-dark_checkbox = ctk.CTkCheckBox(master=frame, text="Dark", variable=dark_var)
-dark_checkbox.pack(pady=12,ipady=5,padx=10)
+theme_var = ctk.IntVar(value=0)
+dark_checkbox = ctk.CTkRadioButton(master=frame, text="Dark", variable=theme_var, value=1)
+dark_checkbox.grid(row=0,column=0, padx=20,pady=20)
 
-light_var = ctk.IntVar()
-light_checkbox = ctk.CTkCheckBox(master=frame, text="Light", variable=light_var)
-light_checkbox.pack(pady=12,ipady=5,padx=10)
+light_checkbox = ctk.CTkRadioButton(master=frame, text="Light", variable=theme_var, value=2)
+light_checkbox.grid(row=0,column=1, padx=20,pady=20)
 
-primary_var = ctk.IntVar()
-primary_checkbox = ctk.CTkCheckBox(master=frame, text="Primary", variable=primary_var)
-primary_checkbox.pack(pady=12,ipady=5,padx=10)
+carousel_var = ctk.IntVar()
+carouselButton = ctk.CTkCheckBox(master=frame,text='Carousel',variable=carousel_var) 
+carouselButton.grid(row=1,column=0, padx=20,pady=20)
 
-secondary_var = ctk.IntVar()
-secondary_checkbox = ctk.CTkCheckBox(master=frame, text="Stick Top", variable=secondary_var)
-secondary_checkbox.pack(pady=12,ipady=5,padx=10)
-
-
-stickybottom_var = ctk.IntVar()
-stickybottom_checkbox = ctk.CTkCheckBox(master=frame, text="Sticky Bottom", variable=stickybottom_var)
-stickybottom_checkbox.pack(pady=12,ipady=5,padx=10)
-
-elements_label = ctk.CTkLabel(master=frame, text="Navbar Elements (comma-separated):")
-elements_label.pack(pady=12,ipady=5,padx=10)
-elements_entry = ctk.CTkEntry(master=frame)
-elements_entry.pack(pady=12,ipady=5,padx=10)
-
-button = ctk.CTkButton(master=frame,text='Generate',command=generate) 
+button = ctk.CTkButton(master=app,text='Generate',command=generate) 
 button.pack(pady=12,ipady=5,padx=10) 
 
 app.mainloop()
 
 with open(f"./{project_name}/src/app.js", "r") as file:
     lines = file.readlines()
-    
-insert_index = None
 
+    # Find the line where you want to insert the component
+insert_index = None
 for i, line in enumerate(lines):
-    if "<Routes>" in line:
+    if "</>" in line:
         insert_index = i
         break
+
 if insert_index is not None:
     # Insert the new component content
     lines.insert(insert_index, f"      <{component_name.title()} />\n")

@@ -18,11 +18,13 @@ os.makedirs(component_dir, exist_ok=True)
 def generate():
     
     theme=""
-    if dark_var.get():
+    offCanvasCode=""
+    sticky=""
+    if theme_var.get()==1:
         theme= "dark"
-    if light_var.get():
+    if theme_var.get()==2:
         theme="light"
-    if primary_var.get():
+    if theme_var.get()==3:
         theme= "primary"
     if offCanvas_var.get():
         offCanvasCode = f"""
@@ -34,18 +36,26 @@ def generate():
         >
         <Offcanvas.Header closeButton>
             <Offcanvas.Title id="offcanvasNavbarLabel-expand-lg">
-                Offcanvas
+                {project_name}
             </Offcanvas.Title>
             </Offcanvas.Header>
         <Offcanvas.Body>
         """
-    if stickybottom_var.get():
-        position = "sticky-bottom"
-    
+    if fixed_var.get()==2:
+        fixed = "bottom"
+    if fixed_var.get()==1:
+        fixed = "top"
+        
+    if sticky_var.get()==1:
+        sticky = "top"
+    if sticky_var.get()==2:
+        sticky = "bottom"
+        
     # Get navbar elements
     elements = elements_entry.get().split(",") if elements_entry.get() else []
 
-    js = f'''import React from 'react';
+    js = f'''
+    import React from 'react';
     {"".join("import Offcanvas from 'react-bootstrap/Offcanvas';" if offCanvasCode else "") }
     import logo from '../../images/logo.png';
     import {{ Navbar, Nav ,Container, NavDropdown }} from 'react-bootstrap';
@@ -53,7 +63,7 @@ def generate():
 
     const MyNav = () => {{
     return (
-        <Navbar expand="lg" bg="{theme}" data-bs-theme="{theme}"> 
+        <Navbar expand="lg" bg="{theme}" fixed="{fixed}" sticky="{sticky}" data-bs-theme="{theme}"> 
         <Navbar.Brand>
         <img
             src={{logo}}
@@ -70,7 +80,7 @@ def generate():
         
         <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-            {"".join([f'<Nav.Link href="/{item}">{item}</Nav.Link> \n' for item in elements])}
+            {"".join([f'<Nav.Link href="/{item}">{item}</Nav.Link>   ' for item in elements])}
             </Nav>
         </Navbar.Collapse>
         {"".join("</Offcanvas.Body> </Navbar.Offcanvas>" if offCanvasCode else "") }
@@ -91,38 +101,49 @@ app.geometry("600x600")
 app.title("WEBKIT: Custom Component Generator")
 
 label = ctk.CTkLabel(app,text="Nav generator") 
-label.pack(pady=20) 
+label.pack(padx=20, pady=20) 
 frame = ctk.CTkFrame(master=app) 
 frame.pack(pady=20,padx=40,fill='both',expand=True)
 
-dark_var = ctk.IntVar()
-dark_checkbox = ctk.CTkCheckBox(master=frame, text="Dark", variable=dark_var)
-dark_checkbox.pack(pady=12,ipady=5,padx=10)
+theme_var = ctk.IntVar(value=0)
+dark_checkbox = ctk.CTkRadioButton(master=frame, text="Dark", variable=theme_var, value=1)
+dark_checkbox.grid(row=0,column=0, padx=20,pady=20)
 
-light_var = ctk.IntVar()
-light_checkbox = ctk.CTkCheckBox(master=frame, text="Light", variable=light_var)
-light_checkbox.pack(pady=12,ipady=5,padx=10)
+light_checkbox = ctk.CTkRadioButton(master=frame, text="Light", variable=theme_var, value=2)
+light_checkbox.grid(row=0,column=1, padx=20,pady=20)
 
-primary_var = ctk.IntVar()
-primary_checkbox = ctk.CTkCheckBox(master=frame, text="Primary", variable=primary_var)
-primary_checkbox.pack(pady=12,ipady=5,padx=10)
+primary_checkbox = ctk.CTkRadioButton(master=frame, text="Primary",variable=theme_var, value=3)
+primary_checkbox.grid(row=0,column=2, padx=20,pady=20)
 
 offCanvas_var = ctk.IntVar()
 offCanvas_checkbox = ctk.CTkCheckBox(master=frame, text="OffCanvas", variable=offCanvas_var)
-offCanvas_checkbox.pack(pady=12,ipady=5,padx=10)
+offCanvas_checkbox.grid(row=3,column=0, padx=20,pady=20)
 
 
-stickybottom_var = ctk.IntVar()
-stickybottom_checkbox = ctk.CTkCheckBox(master=frame, text="Sticky Bottom", variable=stickybottom_var)
-stickybottom_checkbox.pack(pady=12,ipady=5,padx=10)
+sticky_var = ctk.IntVar(value=0)
+stickybottom_checkbox = ctk.CTkRadioButton(master=frame, text="Sticky Bottom", variable=sticky_var,value=2)
+stickybottom_checkbox.grid(row=1,column=1, padx=20,pady=20)
 
-elements_label = ctk.CTkLabel(master=frame, text="Navbar Elements (comma-separated):")
-elements_label.pack(pady=12,ipady=5,padx=10)
-elements_entry = ctk.CTkEntry(master=frame)
-elements_entry.pack(pady=12,ipady=5,padx=10)
+stickytop_checkbox = ctk.CTkRadioButton(master=frame, text="Sticky Top", variable=sticky_var,value=1)
+stickytop_checkbox.grid(row=1,column=0, padx=20,pady=20)
 
-button = ctk.CTkButton(master=frame,text='Generate',command=generate) 
-button.pack(pady=12,ipady=5,padx=10) 
+fixed_var = ctk.IntVar(value=0)
+fixedtop_checkbox = ctk.CTkRadioButton(master=frame, text="Fixed Top", variable=fixed_var, value=1)
+fixedtop_checkbox.grid(row=2,column=0, padx=20,pady=20)
+
+fixedbottom_checkbox = ctk.CTkRadioButton(master=frame, text="Fixed bottom", variable=fixed_var,value=2)
+fixedbottom_checkbox.grid(row=2,column=1, padx=20,pady=20)
+
+frame2 = ctk.CTkFrame(master=app) 
+frame2.pack(pady=20,padx=40,fill='both',expand=True)
+
+elements_label = ctk.CTkLabel(master=frame2, text="Navbar Elements (comma-separated):")
+elements_label.pack(padx=20, pady=20)
+elements_entry = ctk.CTkEntry(master=frame2, width=400, corner_radius=10,placeholder_text="e.g., 'Home, About Us, Contact'")
+elements_entry.pack(padx=20,pady=20)
+
+button = ctk.CTkButton(master=app,text='Generate',command=generate) 
+button.pack(padx=20,pady=20) 
 
 app.mainloop()
 

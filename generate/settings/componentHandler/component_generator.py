@@ -44,7 +44,7 @@ def landingPage_generator():
         except Exception as e:
             print(f"Error occurred: {e}")
 
-    run_another_file("generate/settings/components/landingPage.py")
+    run_another_file("generate/settings/components/landingpage.py")
 
 app = ctk.CTk() 
 app.geometry("600x600") 
