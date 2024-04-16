@@ -1,7 +1,7 @@
 import customtkinter as ctk 
 import os
 
-print("nav creation in process...")
+print("Landing Page in progress...")
 
 ctk.set_appearance_mode("dark") 
 ctk.set_default_color_theme("green") 
@@ -10,13 +10,13 @@ with open("project_name.txt", 'r') as file:
   project_name = file.read()
   print(project_name)
 
-component_name="nav"
+component_name="landingPage"
 
 component_dir = f"./{project_name}/src/components/"+component_name.lower().replace(" ", "-")
 os.makedirs(component_dir, exist_ok=True)
 
 def generate():
-    
+    position = ""
     theme=""
     if dark_var.get():
         theme= "dark"
@@ -24,21 +24,8 @@ def generate():
         theme="light"
     if primary_var.get():
         theme= "primary"
-    if offCanvas_var.get():
-        offCanvasCode = f"""
-        <Navbar.Offcanvas 
-            bg="{theme if theme else ""}"  data-bs-theme="{theme if theme else ""}"
-            id="offcanvasNavbar-expand-lg"
-            aria-labelledby="offcanvasNavbarLabel-expand-lg"
-            placement="end"
-        >
-        <Offcanvas.Header closeButton>
-            <Offcanvas.Title id="offcanvasNavbarLabel-expand-lg">
-                Offcanvas
-            </Offcanvas.Title>
-            </Offcanvas.Header>
-        <Offcanvas.Body>
-        """
+    if secondary_var.get():
+        position = "secondary"
     if stickybottom_var.get():
         position = "sticky-bottom"
     
@@ -46,14 +33,13 @@ def generate():
     elements = elements_entry.get().split(",") if elements_entry.get() else []
 
     js = f'''import React from 'react';
-    {"".join("import Offcanvas from 'react-bootstrap/Offcanvas';" if offCanvasCode else "") }
     import logo from '../../images/logo.png';
     import {{ Navbar, Nav ,Container, NavDropdown }} from 'react-bootstrap';
     import 'bootstrap/dist/css/bootstrap.min.css';
 
     const MyNav = () => {{
     return (
-        <Navbar expand="lg" bg="{theme}" data-bs-theme="{theme}"> 
+        <Navbar  expand="lg" bg="{theme}" data-bs-theme="{theme}"> 
         <Navbar.Brand>
         <img
             src={{logo}}
@@ -62,18 +48,13 @@ def generate():
             className="d-inline-block align-top rounded-3 mx-4 fluid"
             alt="React Bootstrap logo"
             />
-            {project_name}</Navbar.Brand>  
-        
-        <Navbar.Toggle aria-controls= 'basic-navbar-nav' />
-        
-        {"".join(str(offCanvasCode) if offCanvasCode else "") }
-        
+            {project_name}</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
             {"".join([f'<Nav.Link href="/{item}">{item}</Nav.Link> \n' for item in elements])}
             </Nav>
         </Navbar.Collapse>
-        {"".join("</Offcanvas.Body> </Navbar.Offcanvas>" if offCanvasCode else "") }
         </Navbar>
     );
     }}
@@ -107,9 +88,9 @@ primary_var = ctk.IntVar()
 primary_checkbox = ctk.CTkCheckBox(master=frame, text="Primary", variable=primary_var)
 primary_checkbox.pack(pady=12,ipady=5,padx=10)
 
-offCanvas_var = ctk.IntVar()
-offCanvas_checkbox = ctk.CTkCheckBox(master=frame, text="OffCanvas", variable=offCanvas_var)
-offCanvas_checkbox.pack(pady=12,ipady=5,padx=10)
+secondary_var = ctk.IntVar()
+secondary_checkbox = ctk.CTkCheckBox(master=frame, text="Stick Top", variable=secondary_var)
+secondary_checkbox.pack(pady=12,ipady=5,padx=10)
 
 
 stickybottom_var = ctk.IntVar()

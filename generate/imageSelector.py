@@ -40,7 +40,7 @@ ctk.set_default_color_theme("green")
   
 # Create main window
 app = ctk.CTk()
-app.geometry("500x400") 
+app.geometry("600x600") 
 app.title("Image File Input")
 
 # Create a ctk frame
