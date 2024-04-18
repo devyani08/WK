@@ -1,5 +1,7 @@
 import customtkinter as ctk 
 import os
+import subprocess
+import sys
 
 print("nav creation in process...")
 
@@ -50,6 +52,16 @@ def generate():
         sticky = "top"
     if sticky_var.get()==2:
         sticky = "bottom"
+    if logo_var.get():
+        def run_another_file(file_path):
+            try:
+                subprocess.Popen([sys.executable, file_path])
+            except FileNotFoundError:
+                print(f"Error: File '{file_path}' not found.")
+            except Exception as e:
+                print(f"Error occurred: {e}")
+        run_another_file("generate/settings/components/logoSelector.py")
+
         
     # Get navbar elements
     elements = elements_entry.get().split(",") if elements_entry.get() else []
@@ -57,7 +69,7 @@ def generate():
     js = f'''
     import React from 'react';
     {"".join("import Offcanvas from 'react-bootstrap/Offcanvas';" if offCanvasCode else "") }
-    import logo from '../../images/logo.png';
+    {"".join("import logo from '../../images/logo.png';" if logo_var.get() else "") }
     import {{ Navbar, Nav ,Container, NavDropdown }} from 'react-bootstrap';
     import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -65,13 +77,14 @@ def generate():
     return (
         <Navbar expand="lg" bg="{theme}" fixed="{fixed}" sticky="{sticky}" data-bs-theme="{theme}"> 
         <Navbar.Brand>
-        <img
+        {"".join(f'''<img
             src={{logo}}
             width="35"
             height="35"
             className="d-inline-block align-top rounded-3 mx-4 fluid"
             alt="React Bootstrap logo"
-            />
+            />''' if logo_var.get() else "") }
+        
             {project_name}</Navbar.Brand>  
         
         <Navbar.Toggle aria-controls= 'basic-navbar-nav' />
@@ -119,6 +132,9 @@ offCanvas_var = ctk.IntVar()
 offCanvas_checkbox = ctk.CTkCheckBox(master=frame, text="OffCanvas", variable=offCanvas_var)
 offCanvas_checkbox.grid(row=3,column=0, padx=20,pady=20)
 
+logo_var = ctk.IntVar()
+logo_checkbox = ctk.CTkCheckBox(master=frame, text="Logo", variable=logo_var)
+logo_checkbox.grid(row=3,column=1, padx=20,pady=20)
 
 sticky_var = ctk.IntVar(value=0)
 stickybottom_checkbox = ctk.CTkRadioButton(master=frame, text="Sticky Bottom", variable=sticky_var,value=2)

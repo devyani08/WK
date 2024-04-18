@@ -7,7 +7,7 @@ ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("green") 
   
 app = ctk.CTk() 
-app.geometry("500x400") 
+app.geometry("600x600") 
 app.title("WEBKIT: Delete Component") 
 
 component_name=""

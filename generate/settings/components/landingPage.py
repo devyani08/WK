@@ -1,5 +1,7 @@
 import customtkinter as ctk 
 import os
+import subprocess
+import sys
 
 print("Landing Page in progress...")
 
@@ -22,68 +24,76 @@ def generate():
     if theme_var.get()==2:
         theme="light" 
     # Get navbar elements
-    
-    js = f'''import React from 'react';
-    import logo from '../../images/logo.png';
-    import {{ Navbar, Nav ,Container, NavDropdown }} from 'react-bootstrap';
-    import 'bootstrap/dist/css/bootstrap.min.css';
-    import Carousel from 'react-bootstrap/Carousel';
-    import image1 from '../../images/image3.png';
-    import image2 from '../../images/image2.jpeg';
-    import image3 from '../../images/image1.webp';
-    
-    const LandingPage = () => {{
-    return (
-        <Carousel fade bg="{theme}" data-bs-theme="{theme}">
-      <Carousel.Item>
+    if carousel_var.get():  
+      def run_another_file(file_path):
+        try:
+            subprocess.Popen([sys.executable, file_path])
+        except FileNotFoundError:
+            print(f"Error: File '{file_path}' not found.")
+        except Exception as e:
+            print(f"Error occurred: {e}")
+            
+      run_another_file("generate/settings/components/CarouselImageSelector.py")
+        
+      js = f'''import React from 'react';
+      import 'bootstrap/dist/css/bootstrap.min.css';
+      import Carousel from 'react-bootstrap/Carousel';
+      import image1 from '../../images/CImage1.png';
+      import image2 from '../../images/CImage2.png';
+      import image3 from '../../images/CImage3.png';
+      
+      const LandingPage = () => {{
+      return (
+          <Carousel fade h-80 bg="{theme}" data-bs-theme="{theme}">
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src={{image1}}
+            alt="First slide"
+            fluid
+          />
+          <Carousel.Caption>
+            <h3>First slide label</h3>
+            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+        
+        <Carousel.Item>
         <img
-          className="d-block w-100"
-          src={{image1}}
-          alt="First slide"
-          fluid
-        />
-        <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      
-      <Carousel.Item>
-      <img
-          className="d-block w-100"
-          src={{image2}}
-          alt="Second slide"
-          fluid
-        />
-        <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      
-      <Carousel.Item>
-      <img
-          className="d-block w-100"
-          src={{image3}}
-          alt="Third slide"
-          fluid
-        />
-        <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
-        </Carousel.Caption>
-      </Carousel.Item>
-    </Carousel>
-    );
-    }}
+            className="d-block w-100"
+            src={{image2}}
+            alt="Second slide"
+            fluid
+          />
+          <Carousel.Caption>
+            <h3>Second slide label</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+        
+        <Carousel.Item>
+        <img
+            className="d-block w-100"
+            src={{image3}}
+            alt="Third slide"
+            fluid
+          />
+          <Carousel.Caption>
+            <h3>Third slide label</h3>
+            <p>
+              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+            </p>
+          </Carousel.Caption>
+        </Carousel.Item>
+      </Carousel>
+      );
+      }}
 
-    export default LandingPage;
-    '''
+      export default LandingPage;
+      '''
 
-    with open(f'{component_dir}/{component_name}.jsx', 'w') as file:
-        file.write(js)
+      with open(f'{component_dir}/{component_name}.jsx', 'w') as file:
+          file.write(js)
         
     app.destroy()
     

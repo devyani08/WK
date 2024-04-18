@@ -4,7 +4,7 @@ import sys
 import customtkinter as ctk 
 import tkinter.messagebox as tkmb
 from tkinter import colorchooser
-import shutil
+
 project_name = ''
 project_description = ''
 
@@ -205,35 +205,33 @@ with open(f"{project_name}/src/app.js",'w')as file:
     file.write(app_js)
     print("writing app.js....")
 
+print("Node Modules are being installed Please ensure that you have a proper Internet Connection...")
 
-print(os.getcwd())
 commands = [
    f"cd {project_name} && npm i",
 ]
 combined_command = " && ".join(commands)
+os.system(combined_command)
+
 commands = [
    f"cd {project_name} && npm install react-bootstrap bootstrap react-router-dom",
 ]
 combined_command = " && ".join(commands)
 os.system(combined_command)
 
-
-def run_another_file(file_path):
-    try:
-        subprocess.Popen([sys.executable, file_path])
-    except FileNotFoundError:
-        print(f"Error: File '{file_path}' not found.")
-    except Exception as e:
-        print(f"Error occurred: {e}")
-
 # Example usage
-
-run_another_file("generate/settings/images/logoSelector.py")
-
 
 commands = [
     f"cd {project_name} && npm start",
 ]
 combined_command = " && ".join(commands)
 os.system(combined_command)
-  
+
+def run_another_file(file_path):
+  try:
+      subprocess.Popen([sys.executable, file_path])
+  except FileNotFoundError:
+      print(f"Error: File '{file_path}' not found.")
+  except Exception as e:
+      print(f"Error occurred: {e}")
+run_another_file("generate/settings/componentHandler/component_generator.py")

@@ -14,7 +14,7 @@ def open_file_dialog():
 def save_image_to_folder():
     image_path = entry.get()
     folder_path = "generate/settings/images/"  # Fixed folder path
-    filename = filename_entry.get()
+    filename = "logo.png"
     # Check if the image path is provided
     
     if not os.path.exists(folder_path):
@@ -58,12 +58,6 @@ entry.pack(pady=12,padx=10)
   
 browse_button = ctk.CTkButton(master=frame, text="Upload", command=open_file_dialog)
 browse_button.pack(pady=12,padx=10)
-
-filename_label = ctk.CTkLabel(master=frame, text="Enter Filename:") 
-filename_label.pack(pady=12,padx=10)
-
-filename_entry = ctk.CTkEntry(master=frame, placeholder_text="Example: logo.png") 
-filename_entry.pack(pady=12,padx=10)
 
 save_button = ctk.CTkButton(master=frame, text="Save LOGO", command=save_image_to_folder)
 save_button.pack(pady=12,padx=10)
