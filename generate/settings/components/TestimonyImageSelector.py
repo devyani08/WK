@@ -36,7 +36,7 @@ def save_images_to_folder():
                 # Open the image file
                 image = Image.open(image_path)
                 # Construct the filename
-                filename = f"CImage{imageCount}.png"
+                filename = f"TImage{imageCount}.png"
                 # Construct the path to save the image
                 save_path = os.path.join(folder_path, filename)
                 # Save the image to the folder
@@ -56,10 +56,10 @@ ctk.set_default_color_theme("green")
 # Create main window
 app = ctk.CTk()
 app.geometry("600x600") 
-app.title("Carousel Image File Input")
+app.title("Testimonial Image File Input")
 
 # Create a ctk frame
-label = ctk.CTkLabel(app,text="Select 3 images for Carousel") 
+label = ctk.CTkLabel(app,text="Select 4 images for Testimony") 
 label.pack(pady=20) 
 frame = ctk.CTkFrame(master=app) 
 frame.pack(pady=20,padx=40,fill='both',expand=True) 
