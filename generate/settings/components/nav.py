@@ -18,12 +18,12 @@ component_dir = f"./{project_name}/src/components/"+component_name.lower().repla
 os.makedirs(component_dir, exist_ok=True)
 
 def generate():
-    
     theme=""
     offCanvasCode=""
     sticky=""
+    fixed=""
     if theme_var.get()==1:
-        theme= "dark"
+        theme="dark"
     if theme_var.get()==2:
         theme="light"
     if theme_var.get()==3:

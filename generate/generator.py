@@ -143,7 +143,7 @@ index_content = f'''
       content={project_description}
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-   
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
    
     <title>{project_name}</title>
@@ -214,7 +214,7 @@ combined_command = " && ".join(commands)
 os.system(combined_command)
 
 commands = [
-   f"cd {project_name} && npm install react-bootstrap bootstrap react-router-dom",
+   f"cd {project_name} && npm install react-bootstrap bootstrap react-router-dom mdb-react-ui-kit @fortawesome/fontawesome-free",
 ]
 combined_command = " && ".join(commands)
 os.system(combined_command)
@@ -234,4 +234,4 @@ def run_another_file(file_path):
       print(f"Error: File '{file_path}' not found.")
   except Exception as e:
       print(f"Error occurred: {e}")
-run_another_file("generate/settings/componentHandler/component_generator.py")
+run_another_file("generate/componentHandler/component_generator.py")
