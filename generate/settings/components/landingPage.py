@@ -21,6 +21,17 @@ def generate():
         theme="light" 
     if theme_var.get()==3:
         theme="primary" 
+    if theme_var.get()==4:
+        theme= "secondary"
+    if theme_var.get()==5:
+        theme="success" 
+    if theme_var.get()==6:
+        theme="danger" 
+    if theme_var.get()==7:
+        theme="warning" 
+    if theme_var.get()==8:
+        theme="info" 
+    
     # Get navbar elements
     if content_var.get()==1: 
        
@@ -45,9 +56,10 @@ def generate():
         import image2 from '../../images/CImage2.png';
         import image3 from '../../images/CImage3.png';
         
-        const Carousel = () => {{
+        const CarouselPage = () => {{
         return (
-            <Carousel className='container-lg p-5 w-50-lg'  fade h-80 bg="{theme}" data-bs-theme="{theme}">
+          <div className='bg-{theme}'>
+          <Carousel className='container-lg p-5 w-50-lg'  fade h-80 bg="{theme}" data-bs-theme="{theme}">
           <Carousel.Item>
             <img
               className="container-lg d-block img-fluid"
@@ -92,10 +104,11 @@ def generate():
             </Carousel.Caption>
           </Carousel.Item>
         </Carousel>
+        </div>
         );
         }}
 
-        export default Carousel;
+        export default CarouselPage;
         '''
       with open(f'{component_dir}/{component_name}.jsx', 'w') as file:
           file.write(js)
@@ -137,26 +150,26 @@ def generate():
           </Row>
           <Row className='justify-content-center'>
           
-          <Col sm={{3}} md={{2}}>
+          <Col xs={{3}} sm={{3}} md={{2}}>
             <Card className='w-50 p-2 rounded-5 mt-5' >
                   <Ratio aspectRatio="1x1">
                     <Image src={{image1}} roundedCircle />
             </Ratio>
             </Card>
           </Col>
-          <Col sm={{3}} >
+          <Col xs={{3}} sm={{3}} >
             <Card className='w-50 p-2 rounded-5 mt-5'  >
             <Ratio aspectRatio="1x1">
                     <Image src={{image2}} roundedCircle />
             </Ratio>          </Card>
           </Col>
-          <Col sm={{3}} >
+          <Col xs={{3}} sm={{3}} >
             <Card className='w-50 p-2 rounded-5 mt-5' >
             <Ratio aspectRatio="1x1">
                     <Image src={{image3}} roundedCircle />
             </Ratio>          </Card>
           </Col>
-          <Col sm={{3}} md={{2}}>
+          <Col xs={{3}} sm={{3}} md={{2}}>
             <Card className='w-50 p-2 rounded-5 mt-5'>
             <Ratio aspectRatio="1x1">
                     <Image src={{image4}} roundedCircle />
@@ -213,7 +226,7 @@ def generate():
     
    
 app = ctk.CTk() 
-app.geometry("600x600") 
+app.geometry("700x700") 
 app.title("WEBKIT: Custom Component Generator")
 
 label = ctk.CTkLabel(app,text="Landing Page Generator") 
@@ -228,15 +241,30 @@ dark_checkbox.grid(row=0,column=0, padx=20,pady=20)
 light_checkbox = ctk.CTkRadioButton(master=frame, text="Light", variable=theme_var, value=2)
 light_checkbox.grid(row=0,column=1, padx=20,pady=20)
 
-primary_checkbox = ctk.CTkRadioButton(master=frame, text="Primary", variable=theme_var, value=3)
-primary_checkbox.grid(row=0,column=2, padx=20,pady=20)
+blue_checkbox = ctk.CTkRadioButton(master=frame, text="Blue", variable=theme_var, value=3)
+blue_checkbox.grid(row=0,column=2, padx=20,pady=20)
+
+grey_checkbox = ctk.CTkRadioButton(master=frame, text="Grey", variable=theme_var, value=4)
+grey_checkbox.grid(row=1,column=0, padx=20,pady=20)
+
+green_checkbox = ctk.CTkRadioButton(master=frame, text="Green", variable=theme_var, value=5)
+green_checkbox.grid(row=1,column=1, padx=20,pady=20)
+
+red_checkbox = ctk.CTkRadioButton(master=frame, text="Red", variable=theme_var, value=6)
+red_checkbox.grid(row=1,column=2, padx=20,pady=20)
+
+yellow_checkbox = ctk.CTkRadioButton(master=frame, text="Yellow", variable=theme_var, value=7)
+yellow_checkbox.grid(row=2,column=0, padx=20,pady=20)
+
+Light_checkbox = ctk.CTkRadioButton(master=frame, text="Light Blue", variable=theme_var, value=8)
+Light_checkbox.grid(row=2,column=1, padx=20,pady=20)
 
 content_var = ctk.IntVar(value=0)
 carouselButton = ctk.CTkRadioButton(master=frame,text='Carousel',variable=content_var, value=1) 
-carouselButton.grid(row=1,column=0, padx=20,pady=20)
+carouselButton.grid(row=3,column=0, padx=20,pady=20)
 
 testimonyButton = ctk.CTkRadioButton(master=frame,text='Testimony',variable=content_var,value=2) 
-testimonyButton.grid(row=1,column=1, padx=20,pady=20)
+testimonyButton.grid(row=3,column=1, padx=20,pady=20)
 
 button = ctk.CTkButton(master=app,text='Generate',command=generate) 
 button.pack(pady=12,ipady=5,padx=10) 

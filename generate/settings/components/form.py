@@ -15,13 +15,27 @@ with open("project_name.txt", 'r') as file:
 def generate():
     global component_name
     theme = ""
+    text="dark"
     form_type = ""
-    if theme_var.get() == 1:
-        theme = "dark"
-    elif theme_var.get() == 2:
-        theme = "light"
-    elif theme_var.get() == 3:
-        theme = "primary"
+    if theme_var.get()==1:
+        theme= "dark"
+        text="light"
+    if theme_var.get()==2:
+        theme="light" 
+    if theme_var.get()==3:
+        theme="primary" 
+    if theme_var.get()==4:
+        theme= "secondary"
+    if theme_var.get()==5:
+        theme="success"
+        text="light" 
+    if theme_var.get()==6:
+        theme="danger" 
+    if theme_var.get()==7:
+        theme="warning" 
+    if theme_var.get()==8:
+        theme="info" 
+    
     
     if login_var.get():
         form_type = "login"
@@ -33,12 +47,14 @@ def generate():
     
     js = f"""
     import React from 'react';
-    import {{ Form, Button,Container }} from 'react-bootstrap';
+    import {{ Form, Button,Container, Card}} from 'react-bootstrap';
     import 'bootstrap/dist/css/bootstrap.min.css';
 
     const MyForm = () =>{{
         return (
-        <Container bg="{theme}" data-bs-theme="{theme}">
+        <div className=" p-5 m-4 ">
+        <Container style={{{{maxWidth:'55vw'}}}} >
+            <Card className="bg-{theme} text-{text} p-5 rounded-4 " >
             <Form expand="lg">
             <h2>{form_type.title()} Form</h2>
             {"".join([f'''<Form.Group className="mb-3" controlId="formBasic{item}">
@@ -46,9 +62,11 @@ def generate():
                 <Form.Control type="{item}" placeholder="Enter {item}" />
             </Form.Group>''' for item in elements])}
             
-            <Button variant="{theme}">Submit</Button>
+            <Button variant="{text}"  type="submit" >Submit</Button>
             </Form>
+        </Card>
         </Container>
+        </div>
         );
     }}
 
@@ -66,7 +84,7 @@ def generate():
     app.destroy()
 
 app = ctk.CTk() 
-app.geometry("600x600") 
+app.geometry("700x700") 
 app.title("WEBKIT: Custom Form Generator")
 
 label = ctk.CTkLabel(app,text="Form generator") 
@@ -81,16 +99,31 @@ dark_checkbox.grid(row=0,column=0, padx=20,pady=20)
 light_checkbox = ctk.CTkRadioButton(master=frame, text="Light", variable=theme_var, value=2)
 light_checkbox.grid(row=0,column=1, padx=20,pady=20)
 
-primary_checkbox = ctk.CTkRadioButton(master=frame, text="Primary", variable=theme_var, value=3)
-primary_checkbox.grid(row=0,column=2, padx=20,pady=20)
+blue_checkbox = ctk.CTkRadioButton(master=frame, text="Blue", variable=theme_var, value=3)
+blue_checkbox.grid(row=0,column=2, padx=20,pady=20)
+
+grey_checkbox = ctk.CTkRadioButton(master=frame, text="Grey", variable=theme_var, value=4)
+grey_checkbox.grid(row=1,column=0, padx=20,pady=20)
+
+green_checkbox = ctk.CTkRadioButton(master=frame, text="Green", variable=theme_var, value=5)
+green_checkbox.grid(row=1,column=1, padx=20,pady=20)
+
+red_checkbox = ctk.CTkRadioButton(master=frame, text="Red", variable=theme_var, value=6)
+red_checkbox.grid(row=1,column=2, padx=20,pady=20)
+
+yellow_checkbox = ctk.CTkRadioButton(master=frame, text="Yellow", variable=theme_var, value=7)
+yellow_checkbox.grid(row=2,column=0, padx=20,pady=20)
+
+Light_checkbox = ctk.CTkRadioButton(master=frame, text="Light Blue", variable=theme_var, value=8)
+Light_checkbox.grid(row=2,column=1, padx=20,pady=20)
 
 login_var = ctk.IntVar()
 login_checkbox = ctk.CTkCheckBox(master=frame, text="Login Form", variable=login_var)
-login_checkbox.grid(row=1,column=0, padx=20,pady=20)
+login_checkbox.grid(row=3,column=0, padx=20,pady=20)
 
 registration_var = ctk.IntVar()
 registration_checkbox = ctk.CTkCheckBox(master=frame, text="Registration Form", variable=registration_var)
-registration_checkbox.grid(row=1,column=1, padx=20,pady=20)
+registration_checkbox.grid(row=3,column=1, padx=20,pady=20)
 
 frame2 = ctk.CTkFrame(master=app) 
 frame2.pack(pady=20,padx=40,fill='both',expand=True)

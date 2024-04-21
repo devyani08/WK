@@ -26,14 +26,28 @@ os.makedirs(component_dir, exist_ok=True)
 def generate():
     
     theme=""
-    text="dark"
+    text="white"
     if theme_var.get()==1:
         theme= "dark"
-        text="white"
     if theme_var.get()==2:
         theme="light"
+        text="dark" 
     if theme_var.get()==3:
-        theme= "primary"  
+        theme="primary" 
+    if theme_var.get()==4:
+        theme= "secondary"
+    if theme_var.get()==5:
+        theme="success"
+        
+    if theme_var.get()==6:
+        theme="danger" 
+    if theme_var.get()==7:
+        theme="warning" 
+        text="dark"
+    if theme_var.get()==8:
+        theme="info" 
+        text="dark"
+    
         
     # Get navbar elements
     products = products_entry.get().split(",") if products_entry.get() else []
@@ -43,17 +57,12 @@ def generate():
 
             const Footer = () => {{
             return (
-            <footer className='bg-{theme} text-center text-lg-start text-{text} py-5' data-bd-theme="{theme}">
-                <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
-                    <div className='me-5 d-none d-lg-block'>
-                        <span>Get connected with us on social networks:</span>
-                    </div>
-                </section>
+            <footer className='bg-{theme} text-center text-lg-start text-{text} pt-5' data-bd-theme="{theme}">
 
                 <section className=''>
                     <Container className='text-center text-md-start mt-5'>
                         <Row className='mt-3'>
-                            <Col md="4" lg="4" xl="4" className='mx-auto mb-4'>
+                            <Col xs="9" sm="8" md="5" lg="6" xl="6" className='mx-auto mb-4'>
                                 <h6 className='text-uppercase fw-bold mb-4'>
                                     {project_name}
                                 </h6>
@@ -62,7 +71,7 @@ def generate():
                                 </p>
                             </Col>
 
-                            <Col md="4" lg="4" xl="4" className='mx-auto mb-4'>
+                            <Col xs="8" sm="8" md="2" lg="2" xl="2"   className='mx-auto mb-4'>
                                 <h6 className='text-uppercase fw-bold mb-4'>Products</h6>
                                 {"".join([f'''<p>
                                     <a href='#!' className='text-reset'>
@@ -71,22 +80,22 @@ def generate():
                                 </p>''' for product in products])}    
                             </Col>
 
-                            <Col md="4" lg="4" xl="4" className='mx-auto mb-md-0 mb-4'>
+                            <Col xs="5" sm="5" md="5" lg="4" xl="3" className='mx-auto mb-md-0 mb-4'>
                                 <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
                                 <p>
                                 {address}
                                 </p>
                                 <p>
-                                    info@{project_name}.com
+                                    info@{project_name.lower()}.com
                                 </p>
                             </Col>
                         </Row>
                     </Container>
                 </section>
 
-                <div className='text-center p-4' style={{{{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}}}>
-                    @Copyright {year.year} Copyright: <a className='text-reset fw-bold' href=''>
-                        www.Amazon.com
+                <div className='text-center p-4'>
+                    &copy; {year.year}: <a className='text-reset fw-bold' href=''>
+                        www.{project_name.lower()}.com
                     </a>
                 </div>
             </footer>
@@ -102,7 +111,7 @@ def generate():
     app.destroy()
     
 app = ctk.CTk() 
-app.geometry("600x600") 
+app.geometry("700x700") 
 app.title("WEBKIT: Custom Component Generator")
 
 label = ctk.CTkLabel(app,text="Footer generator") 
@@ -117,8 +126,23 @@ dark_checkbox.grid(row=0,column=0, padx=20,pady=20)
 light_checkbox = ctk.CTkRadioButton(master=frame, text="Light", variable=theme_var, value=2)
 light_checkbox.grid(row=0,column=1, padx=20,pady=20)
 
-primary_checkbox = ctk.CTkRadioButton(master=frame, text="Primary",variable=theme_var, value=3)
-primary_checkbox.grid(row=0,column=2, padx=20,pady=20)
+blue_checkbox = ctk.CTkRadioButton(master=frame, text="Blue", variable=theme_var, value=3)
+blue_checkbox.grid(row=0,column=2, padx=20,pady=20)
+
+grey_checkbox = ctk.CTkRadioButton(master=frame, text="Grey", variable=theme_var, value=4)
+grey_checkbox.grid(row=1,column=0, padx=20,pady=20)
+
+green_checkbox = ctk.CTkRadioButton(master=frame, text="Green", variable=theme_var, value=5)
+green_checkbox.grid(row=1,column=1, padx=20,pady=20)
+
+red_checkbox = ctk.CTkRadioButton(master=frame, text="Red", variable=theme_var, value=6)
+red_checkbox.grid(row=1,column=2, padx=20,pady=20)
+
+yellow_checkbox = ctk.CTkRadioButton(master=frame, text="Yellow", variable=theme_var, value=7)
+yellow_checkbox.grid(row=2,column=0, padx=20,pady=20)
+
+Light_checkbox = ctk.CTkRadioButton(master=frame, text="Light Blue", variable=theme_var, value=8)
+Light_checkbox.grid(row=2,column=1, padx=20,pady=20)
 
 
 frame2 = ctk.CTkFrame(master=app) 
@@ -139,15 +163,17 @@ button.pack(padx=20,pady=20)
 
 app.mainloop()
 
+
 with open(f"./{project_name}/src/app.js", "r") as file:
     lines = file.readlines()
-    
-insert_index = None
 
+    # Find the line where you want to insert the component
+insert_index = None
 for i, line in enumerate(lines):
-    if "<Routes>" in line:
+    if "</div>" in line:
         insert_index = i
         break
+
 if insert_index is not None:
     # Insert the new component content
     lines.insert(insert_index, f"      <{component_name.title()} />\n")

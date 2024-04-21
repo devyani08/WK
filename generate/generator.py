@@ -12,7 +12,7 @@ ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("green") 
   
 app = ctk.CTk() 
-app.geometry("500x400") 
+app.geometry("700x700") 
 app.title("WEBKIT: Project Generator") 
   
 def get_project_info():
@@ -175,12 +175,14 @@ import {{ BrowserRouter as Router, Routes }} from 'react-router-dom';
 
 const App = () => {{
   return (
+  <div>
   <>
     <Router>
       <Routes>
       </Routes>
     </Router>
   </>
+  </div>
   );
 }};
 
@@ -219,13 +221,6 @@ commands = [
 combined_command = " && ".join(commands)
 os.system(combined_command)
 
-# Example usage
-
-commands = [
-    f"cd {project_name} && npm start",
-]
-combined_command = " && ".join(commands)
-os.system(combined_command)
 
 def run_another_file(file_path):
   try:
@@ -235,3 +230,11 @@ def run_another_file(file_path):
   except Exception as e:
       print(f"Error occurred: {e}")
 run_another_file("generate/componentHandler/component_generator.py")
+
+# Example usage
+
+commands = [
+    f"cd {project_name} && npm start",
+]
+combined_command = " && ".join(commands)
+os.system(combined_command)

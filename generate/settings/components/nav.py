@@ -23,11 +23,21 @@ def generate():
     sticky=""
     fixed=""
     if theme_var.get()==1:
-        theme="dark"
+        theme= "dark"
     if theme_var.get()==2:
-        theme="light"
+        theme="light" 
     if theme_var.get()==3:
-        theme= "primary"
+        theme="primary" 
+    if theme_var.get()==4:
+        theme= "secondary"
+    if theme_var.get()==5:
+        theme="success" 
+    if theme_var.get()==6:
+        theme="danger" 
+    if theme_var.get()==7:
+        theme="warning" 
+    if theme_var.get()==8:
+        theme="info" 
     if offCanvas_var.get():
         offCanvasCode = f"""
         <Navbar.Offcanvas 
@@ -77,13 +87,13 @@ def generate():
     return (
         <Navbar expand="lg" bg="{theme}" fixed="{fixed}" sticky="{sticky}" data-bs-theme="{theme}"> 
         <Navbar.Brand>
-        {"".join(f'''<img
+        {"".join(f"""<img
             src={{logo}}
             width="35"
             height="35"
             className="d-inline-block align-top rounded-3 mx-4 fluid"
             alt="React Bootstrap logo"
-            />''' if logo_var.get() else "") }
+            />""" if logo_var.get() else "") }
         
             {project_name}</Navbar.Brand>  
         
@@ -110,7 +120,7 @@ def generate():
     app.destroy()
     
 app = ctk.CTk() 
-app.geometry("600x600") 
+app.geometry("700x700") 
 app.title("WEBKIT: Custom Component Generator")
 
 label = ctk.CTkLabel(app,text="Nav generator") 
@@ -125,30 +135,46 @@ dark_checkbox.grid(row=0,column=0, padx=20,pady=20)
 light_checkbox = ctk.CTkRadioButton(master=frame, text="Light", variable=theme_var, value=2)
 light_checkbox.grid(row=0,column=1, padx=20,pady=20)
 
-primary_checkbox = ctk.CTkRadioButton(master=frame, text="Primary",variable=theme_var, value=3)
-primary_checkbox.grid(row=0,column=2, padx=20,pady=20)
+blue_checkbox = ctk.CTkRadioButton(master=frame, text="Blue", variable=theme_var, value=3)
+blue_checkbox.grid(row=0,column=2, padx=20,pady=20)
 
-offCanvas_var = ctk.IntVar()
-offCanvas_checkbox = ctk.CTkCheckBox(master=frame, text="OffCanvas", variable=offCanvas_var)
-offCanvas_checkbox.grid(row=3,column=0, padx=20,pady=20)
+grey_checkbox = ctk.CTkRadioButton(master=frame, text="Grey", variable=theme_var, value=4)
+grey_checkbox.grid(row=1,column=0, padx=20,pady=20)
 
-logo_var = ctk.IntVar()
-logo_checkbox = ctk.CTkCheckBox(master=frame, text="Logo", variable=logo_var)
-logo_checkbox.grid(row=3,column=1, padx=20,pady=20)
+green_checkbox = ctk.CTkRadioButton(master=frame, text="Green", variable=theme_var, value=5)
+green_checkbox.grid(row=1,column=1, padx=20,pady=20)
+
+red_checkbox = ctk.CTkRadioButton(master=frame, text="Red", variable=theme_var, value=6)
+red_checkbox.grid(row=1,column=2, padx=20,pady=20)
+
+yellow_checkbox = ctk.CTkRadioButton(master=frame, text="Yellow", variable=theme_var, value=7)
+yellow_checkbox.grid(row=2,column=0, padx=20,pady=20)
+
+Light_checkbox = ctk.CTkRadioButton(master=frame, text="Light Blue", variable=theme_var, value=8)
+Light_checkbox.grid(row=2,column=1, padx=20,pady=20)
 
 sticky_var = ctk.IntVar(value=0)
 stickybottom_checkbox = ctk.CTkRadioButton(master=frame, text="Sticky Bottom", variable=sticky_var,value=2)
-stickybottom_checkbox.grid(row=1,column=1, padx=20,pady=20)
+stickybottom_checkbox.grid(row=3,column=0, padx=20,pady=20)
 
 stickytop_checkbox = ctk.CTkRadioButton(master=frame, text="Sticky Top", variable=sticky_var,value=1)
-stickytop_checkbox.grid(row=1,column=0, padx=20,pady=20)
+stickytop_checkbox.grid(row=3,column=1, padx=20,pady=20)
 
 fixed_var = ctk.IntVar(value=0)
 fixedtop_checkbox = ctk.CTkRadioButton(master=frame, text="Fixed Top", variable=fixed_var, value=1)
-fixedtop_checkbox.grid(row=2,column=0, padx=20,pady=20)
+fixedtop_checkbox.grid(row=3,column=2, padx=20,pady=20)
 
 fixedbottom_checkbox = ctk.CTkRadioButton(master=frame, text="Fixed bottom", variable=fixed_var,value=2)
-fixedbottom_checkbox.grid(row=2,column=1, padx=20,pady=20)
+fixedbottom_checkbox.grid(row=4,column=0, padx=20,pady=20)
+
+offCanvas_var = ctk.IntVar()
+offCanvas_checkbox = ctk.CTkCheckBox(master=frame, text="OffCanvas", variable=offCanvas_var)
+offCanvas_checkbox.grid(row=4,column=1, padx=20,pady=20)
+
+logo_var = ctk.IntVar()
+logo_checkbox = ctk.CTkCheckBox(master=frame, text="Logo", variable=logo_var)
+logo_checkbox.grid(row=4,column=2, padx=20,pady=20)
+
 
 frame2 = ctk.CTkFrame(master=app) 
 frame2.pack(pady=20,padx=40,fill='both',expand=True)
