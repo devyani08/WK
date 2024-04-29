@@ -73,11 +73,11 @@ def generate():
 
                             <Col xs="8" sm="8" md="2" lg="2" xl="2"   className='mx-auto mb-4'>
                                 <h6 className='text-uppercase fw-bold mb-4'>Products</h6>
-                                {"".join([f'''<p>
+                                {"".join([f"""<p>
                                     <a href='#!' className='text-reset'>
                                     {product}
                                     </a>
-                                </p>''' for product in products])}    
+                                </p>""" for product in products])}   
                             </Col>
 
                             <Col xs="5" sm="5" md="5" lg="4" xl="3" className='mx-auto mb-md-0 mb-4'>
